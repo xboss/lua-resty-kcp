@@ -1,5 +1,8 @@
 # Compiled Lua sources
 luac.out
+rsync.sh
+.DS_Store
+.vscode
 
 # luarocks build files
 *.src.rock
