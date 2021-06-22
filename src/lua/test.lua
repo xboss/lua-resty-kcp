@@ -26,7 +26,7 @@ local function udp_output(buf, user)
     return 0
 end
 
-local function recv(id)
+local function recv()
     local data, err
     sock:settimeout(1000)  -- one second timeout
     data, err = sock:receive()
@@ -38,7 +38,6 @@ local function recv(id)
 end
 
 local function test(mode)
-    --此处info用于output接口回调数据
     local session = 111
     local kcp = lkcp.create(session, session)
 
@@ -74,7 +73,7 @@ local function test(mode)
         local msg = "test msg"
         lkcp.send(kcp, msg, #msg)
 
-		hrlen, hr = recv(0)
+		hrlen, hr = recv()
         if hrlen > 0 then
             print("recv:", hr)
             lkcp.input(kcp, hr, hrlen)
@@ -91,10 +90,5 @@ test(0) --默认模式，类似 TCP：正常模式，无快速重传，常规流
 
 sock:close()
 
--- local kcp =lkcp.create(123)
--- ngx.say("create ", kcp.conv)
--- lkcp.set_output(kcp, function (buf, len, kcp, user)
--- 	ngx.say("output ", len, " user ", user)
--- end)
 
 
