@@ -86,10 +86,16 @@ function _M.send(kcp, buf)
 	return ikcplib.ikcp_send(kcp, buf, #buf)
 end
 
-function _M.recv(kcp, len)
-	len = len or 2048
+function _M.recv(kcp)
+	local len = ikcplib.ikcp_peeksize(kcp)
+	if len <= 0 then
+		return nil
+	end
 	local buf = ffi.new("char[?]", len)
-	ikcplib.ikcp_recv(kcp, buf, len)
+	len = ikcplib.ikcp_recv(kcp, buf, len)
+	if len <= 0 then
+		return nil
+	end
 	return ffi.string(buf, len)
 end
 

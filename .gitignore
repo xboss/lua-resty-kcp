@@ -3,6 +3,7 @@ luac.out
 rsync.sh
 .DS_Store
 .vscode
+testgm.lua
 
 # luarocks build files
 *.src.rock
