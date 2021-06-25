@@ -1,6 +1,8 @@
 local lkcp = require "lkcp"
 
-lkcp.loadlib("/path_to_your_ikcp_lib/ikcp.so")
+local str_sub = string.sub
+
+lkcp.loadlib("/root/jim/lua-resty-kcp/ikcp.so")
 
 
 local sock = ngx.socket.udp()
@@ -17,7 +19,7 @@ local function getms()
 end
 
 local function udp_output(buf, user)
-    print("udp_output: ", buf, " ", tonumber(user))
+    -- print("udp_output: ", buf, " ", tonumber(user))
     local ok, err = sock:send(buf)
     if not ok then
         print("sock send error : ", err)
@@ -71,13 +73,15 @@ local function test(mode)
         -- lkcp.check(kcp, current)
         lkcp.update(kcp, current)
         local msg = "test msg"
-        lkcp.send(kcp, msg, #msg)
+        lkcp.send(kcp, msg)
 
 		hrlen, hr = recv()
         if hrlen > 0 then
-            print("recv:", hr)
+            -- print("recv:", hr)
             lkcp.input(kcp, hr, hrlen)
         end
+        local buf = lkcp.recv(kcp, 100)
+        print("recv:", buf)
     end
 
     lkcp.release(kcp)

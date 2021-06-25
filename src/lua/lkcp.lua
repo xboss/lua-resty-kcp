@@ -82,12 +82,16 @@ function _M.set_output(kcp, output_func)
     end)
 end
 
-function _M.send(kcp, buf, len)
-	return ikcplib.ikcp_send(kcp, buf, len)
+function _M.send(kcp, buf)
+	return ikcplib.ikcp_send(kcp, buf, #buf)
 end
 
-function _M.recv(kcp, buf, len)
-	return ikcplib.ikcp_recv(kcp, buf, len)
+function _M.recv(kcp, len)
+	len = len or 2048
+	local buf = ffi.new("char[?]", len)
+	-- buf = ffi.cast("char *", buf)
+	ikcplib.ikcp_recv(kcp, buf, len)
+	return ffi.string(buf, len)
 end
 
 function _M.update(kcp, ms)
