@@ -2,7 +2,7 @@ local lkcp = require "lkcp"
 
 local str_sub = string.sub
 
-lkcp.loadlib("/root/jim/lua-resty-kcp/ikcp.so")
+lkcp.loadlib("/path_to_your_ikcp_lib/ikcp.so")
 
 
 local sock = ngx.socket.udp()
