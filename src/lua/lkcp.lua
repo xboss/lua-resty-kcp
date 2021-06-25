@@ -89,7 +89,6 @@ end
 function _M.recv(kcp, len)
 	len = len or 2048
 	local buf = ffi.new("char[?]", len)
-	-- buf = ffi.cast("char *", buf)
 	ikcplib.ikcp_recv(kcp, buf, len)
 	return ffi.string(buf, len)
 end
